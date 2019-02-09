@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="author" content="Tomer Ovadia // https://github.com/otomer" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://fonts.googleapis.com/css?family=Raleway:400,400i,700"
+    />
+    <link rel="stylesheet" type="text/css" href="popup.css" />
+    <title></title>
+  </head>
+  <body>
+    <div class="popup-wrapper">
+      <h1></h1>
+      <h2></h2>
+      <hr />
+      <h3 id="savedTitle"></h3>
+      <div>
+        Enable Extension:
+        <input id="enableCheckbox" type="checkbox" placeholder="Enable" />
+      </div>
+      <div>
+        Countdown Seconds:
+        <input id="countdownSecondsInput" type="number" placeholder="Seconds" />
+      </div>
+      <div>
+        Timeout:
+        <input
+          id="timeoutImageInput"
+          type="text"
+          placeholder="Timeout Image url"
+        />
+        <input id="timeoutTextInput" type="text" placeholder="Timeout text" />
+      </div>
+      <div>
+        Safe Mode:
+        <input id="safeTextInput" type="text" placeholder="Safe text" />
+        <input id="safeColorInput" type="color" placeholder="Safe color" />
+      </div>
+      <div>
+        Warn Mode:
+        <input id="warnTextInput" type="text" placeholder="Warn text" />
+        <input id="warnColorInput" type="color" placeholder="Warn color" />
+      </div>
+      <div>
+        Danger Mode:
+        <input id="dangerTextInput" type="text" placeholder="Danger text" />
+        <input id="dangerColorInput" type="color" placeholder="Danger color" />
+      </div>
+      <button id="saveBtn">Save Changes</button>
+      <button id="clearBtn">Clear</button>
+    </div>
+
+    <script src="../lib/jquery.min.js"></script>
+    <script src="../shared/util.js"></script>
+    <script src="../shared/constants.js"></script>
+    <script src="../shared/settings.js"></script>
+    <script src="popup.js"></script>
+  </body>
+</html>
