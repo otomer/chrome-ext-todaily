@@ -1,7 +1,27 @@
 window.addEventListener('load', windowLoaded, false);
 
+function windowLoaded(evt) {
+  defer(() => {
+    contentIsReady();
+  });
+}
+
+function defer(method) {
+  if (window.jQuery) {
+    log('jQuery in window');
+    method();
+  } else {
+    setTimeout(function() {
+      log('check for jQuery in window');
+      defer(method);
+    }, 500);
+  }
+}
+
 function contentIsReady() {
   log(`jquery v${$.fn.jquery} is now loaded`);
+  $('style').append(INLINE_STYLES);
+
   let settings;
   let countDownInterval;
 
@@ -11,7 +31,6 @@ function contentIsReady() {
       imgContainerId: `${EXTENSION_ELEMENT_ID}-image`,
     },
   };
-
   $.extend(dom, SOFTWARES);
 
   chrome.storage.onChanged.addListener(function(changes, areaName) {
@@ -47,10 +66,12 @@ function contentIsReady() {
       if (!elem || elem.length === 0) {
         const countDownElem = $('<div>', {
           id: dom.extension.containerId,
-          style:
-            'text-align:center; height:30px; font-size:20px; color: white;',
+
+          style: `-webkit-animation: fadein 1s; ${
+            dom[settings.software].containerStyle
+          }`,
         });
-        $(dom[settings.software].containerId).before(countDownElem);
+        $('body').append(countDownElem);
 
         let timeleft = settings.countdownSeconds;
 
@@ -172,23 +193,5 @@ function contentIsReady() {
         CountDown.start(initStart.text);
       }, 1000);
     }
-  });
-}
-
-function defer(method) {
-  if (window.jQuery) {
-    log('jQuery in window');
-    method();
-  } else {
-    setTimeout(function() {
-      log('check for jQuery in window');
-      defer(method);
-    }, 500);
-  }
-}
-
-function windowLoaded(evt) {
-  defer(() => {
-    contentIsReady();
   });
 }

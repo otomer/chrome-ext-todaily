@@ -5,7 +5,7 @@
   "description": "Avoid Wasting Time on Daily Standup Meetings",
   "permissions": ["activeTab", "declarativeContent", "storage"],
   "options_page": "options/options.html",
-  "web_accessible_resources": ["alert.mp3"],
+  "web_accessible_resources": ["resources/alert.mp3"],
   "content_scripts": [
     {
       "matches": ["https://jira.we.co/*/*"],
@@ -15,7 +15,8 @@
         "shared/settings.js",
         "shared/constants.js",
         "shared/softwares.js",
-        "content.js"
+        "content/styles.js",
+        "content/content.js"
       ]
     }
   ],
