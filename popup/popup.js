@@ -1,9 +1,9 @@
 $(function() {
   'use strict';
 
-  document.title = `${APP_NAME} | Popup`;
-  $('h1').html(APP_NAME);
-  $('h2').html(SLOGAN);
+  document.title = `${CONSTANTS.APP_NAME} | Popup`;
+  $('h1').html(CONSTANTS.APP_NAME);
+  $('h2').html(CONSTANTS.SLOGAN);
 
   const dom = {
     enableCheckbox: $('#enableCheckbox'),
@@ -38,7 +38,7 @@ $(function() {
     ) {
       customSettings = givenSettings.todaily;
     }
-    settings = customSettings || defaultSettings;
+    settings = customSettings || SETTINGS.defaults;
     updateSavedLabel(customSettings ? settings.time : null);
     dom.countdownSecondsInput.val(settings.countdownSeconds);
     dom.safeColorInput.val(settings.safe.color);

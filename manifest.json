@@ -15,6 +15,7 @@
         "shared/settings.js",
         "shared/constants.js",
         "shared/softwares.js",
+        "content/countdown.js",
         "content/styles.js",
         "content/content.js"
       ]

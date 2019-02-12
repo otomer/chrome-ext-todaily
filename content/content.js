@@ -1,34 +1,16 @@
-window.addEventListener('load', windowLoaded, false);
-
-function windowLoaded(evt) {
-  defer(() => {
-    contentIsReady();
-  });
-}
-
-function defer(method) {
-  if (window.jQuery) {
-    log('jQuery in window');
-    method();
-  } else {
-    setTimeout(function() {
-      log('check for jQuery in window');
-      defer(method);
-    }, 500);
-  }
-}
+window.addEventListener('load', () => Util.windowLoaded(contentIsReady), false);
 
 function contentIsReady() {
-  log(`jquery v${$.fn.jquery} is now loaded`);
-  $('style').append(INLINE_STYLES);
+  Util.log(`content is ready, jquery v${$.fn.jquery} was loaded`);
+  Styles.init();
 
   let settings;
   let countDownInterval;
 
   let dom = {
     extension: {
-      containerId: EXTENSION_ELEMENT_ID,
-      imgContainerId: `${EXTENSION_ELEMENT_ID}-image`,
+      containerId: CONSTANTS.EXTENSION_ELEMENT_ID,
+      imgContainerId: `${CONSTANTS.EXTENSION_ELEMENT_ID}-image`,
     },
   };
   $.extend(dom, SOFTWARES);
@@ -40,8 +22,7 @@ function contentIsReady() {
       changes.todaily.newValue &&
       Object.keys(changes.todaily.newValue).length > 0
     ) {
-      log('Storage updated', changes.todaily.newValue);
-
+      Util.log('Storage updated', changes.todaily.newValue);
       settings = changes.todaily.newValue;
 
       if (settings.enable) {
@@ -53,8 +34,8 @@ function contentIsReady() {
         CountDown.stop();
       }
     } else {
-      settings = defaultSettings;
-      log('Cleared storage');
+      settings = SETTINGS.defaults;
+      Util.log('Cleared storage');
     }
   });
 
@@ -73,18 +54,18 @@ function contentIsReady() {
         });
         $('body').append(countDownElem);
 
-        let timeleft = settings.countdownSeconds;
+        let timeLeft = settings.countdownSeconds;
 
         const intervalHandler = () => {
-          countDownElem.html(timeleft);
+          countDownElem.html(timeLeft);
           let countdownState;
 
-          if (timeleft <= 0) {
+          if (timeLeft <= 0) {
             CountDown.stop(true);
             return;
-          } else if (timeleft <= settings.countdownSeconds * 0.3) {
+          } else if (timeLeft <= settings.countdownSeconds * 0.3) {
             countdownState = settings.danger;
-          } else if (timeleft <= settings.countdownSeconds * 0.5) {
+          } else if (timeLeft <= settings.countdownSeconds * 0.5) {
             countdownState = settings.warn;
           } else {
             countdownState = settings.safe;
@@ -94,9 +75,9 @@ function contentIsReady() {
           countDownElem.html(
             `${text} ${
               countdownState.text
-            }, you have ${timeleft} seconds left..`,
+            }, you have ${timeLeft} seconds left..`,
           );
-          timeleft -= 1;
+          timeLeft -= 1;
         };
 
         countDownInterval = setInterval(function() {
@@ -104,7 +85,7 @@ function contentIsReady() {
         }, 1000);
         intervalHandler();
       } else {
-        log('Unsure what is this flow');
+        Util.log('Unsure what is this flow');
       }
     },
     stop: function(done) {
@@ -176,14 +157,15 @@ function contentIsReady() {
         todailySettings.todaily &&
         (Object.keys(todailySettings.todaily).length > 0 &&
           todailySettings.todaily)) ||
-      defaultSettings;
+      SETTINGS.defaults;
 
     $(dom[settings.software].buttonsSelector).click(function(t) {
+      CountDown.stop();
+
       const buttonStart = shouldStart();
       if (buttonStart.result) {
         CountDown.start(buttonStart.text);
       } else {
-        CountDown.stop();
       }
     });
 

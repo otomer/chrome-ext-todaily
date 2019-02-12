@@ -1,4 +1,5 @@
-let INLINE_STYLES = `
+(function() {
+  let GENERAL = `
 @keyframes fadein {
   from { opacity: 0; }
   to   { opacity: 1; }
@@ -28,3 +29,12 @@ let INLINE_STYLES = `
   to   { opacity: 1; }
 }
 `;
+
+  function init() {
+    $('style').append(GENERAL);
+  }
+
+  window.Styles = {
+    init,
+  };
+})();
