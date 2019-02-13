@@ -30,7 +30,39 @@
 }
 
 .timeout-img {
-  position:fixed; z-index:99; height: 200px; top:50%; left:50%; margin-top: -100px;
+  position:fixed;
+  z-index:99;
+  height: 200px;
+  top:50%;
+  left:50%;
+  margin-top: -100px;
+}
+.enabler {
+  bottom: 46px;
+    padding: 0;
+    left: 5px;
+    width: 45px;
+    height: 45px;
+    position: fixed;
+    border: solid 1px #bbb;
+    z-index: 99;
+    border-radius: 5px;
+    outline: none;
+    font-weight:bold;
+    cursor:pointer;
+}
+.enabler span:nth-child(1) {
+  font-size:8px;
+}
+.enabler span:nth-child(2) {
+  font-size:10px;
+}
+.enabler-on {
+  background:#dac32a;
+}
+
+.enabler-off {
+  background:#c8c8c8;
 }
 
 `;

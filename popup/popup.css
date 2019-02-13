@@ -5,6 +5,14 @@ body {
 .popup-wrapper {
   width: 230px;
 }
+.popup-site {
+  display: block;
+  text-align: center;
+  font-size: 10px;
+  text-decoration: none;
+  color: navy;
+  font-weight: bold;
+}
 
 button {
   text-transform: uppercase;

@@ -9,6 +9,7 @@ function contentIsReady() {
     extension: {
       containerId: CONSTANTS.EXTENSION_ELEMENT_ID,
       imgContainerId: `${CONSTANTS.EXTENSION_ELEMENT_ID}-image`,
+      enablerContainerId: `${CONSTANTS.EXTENSION_ELEMENT_ID}-enabler`,
     },
   };
   $.extend(dom, SOFTWARES);
@@ -24,19 +25,9 @@ function contentIsReady() {
         changes.todaily.newValue) ||
       SETTINGS.defaults;
 
+    updateEnabler();
     tryStartCountdown();
   });
-
-  function tryStartCountdown() {
-    const currState = getActivationState();
-    if (currState.enable) {
-      setTimeout(() => {
-        CountDown.start(currState.text);
-      }, 500);
-    } else {
-      Util.log('currState should not start countdown');
-    }
-  }
 
   const CountDown = {
     interval: null,
@@ -111,9 +102,9 @@ function contentIsReady() {
     },
     timeout: function() {
       clearInterval(CountDown.interval);
-      var myAudio = new Audio();
-      myAudio.src = chrome.extension.getURL('resources/alert.mp3');
-      myAudio.play();
+      var alertAudio = new Audio();
+      alertAudio.src = chrome.extension.getURL('resources/alert.mp3');
+      alertAudio.play();
 
       const elem = $(`#${dom.extension.containerId}`);
       elem.html(settings.timeout.text);
@@ -131,6 +122,18 @@ function contentIsReady() {
     },
   };
 
+  function tryStartCountdown() {
+    const currState = getActivationState();
+    if (currState.enable) {
+      setTimeout(() => {
+        CountDown.start(currState.text);
+      }, 500);
+    } else {
+      CountDown.clearance();
+      Util.log('currState should not start countdown');
+    }
+  }
+
   function getActivationState() {
     const elemActive = $(
       `${dom[settings.software].buttonsSelector}.${
@@ -144,6 +147,44 @@ function contentIsReady() {
     };
   }
 
+  function updateEnabler() {
+    const cls = settings.enable ? 'on' : 'off';
+    let enabler = $(`#${dom.extension.enablerContainerId}`);
+
+    if (!enabler || enabler.length == 0) {
+      enabler = $('<button>', {
+        id: dom.extension.enablerContainerId,
+      });
+      $('body').append(enabler);
+    }
+    enabler.attr('class', `enabler enabler-${cls}`);
+    enabler.html(`<span>STANDUP</span><br/><span> ${cls.toUpperCase()}</span>`);
+    return enabler;
+  }
+
+  function addEnabler() {
+    const enabler = updateEnabler();
+
+    enabler.click(() => {
+      const time = +new Date();
+
+      chrome.storage.sync.set(
+        {
+          todaily: {
+            ...settings,
+            time,
+            enable: !settings.enable,
+          },
+        },
+        function() {
+          updateEnabler();
+          Util.log('done');
+          tryStartCountdown();
+        },
+      );
+    });
+  }
+
   chrome.storage.sync.get([CONSTANTS.STORAGE_NAME], todailySettings => {
     settings =
       (todailySettings &&
@@ -151,6 +192,8 @@ function contentIsReady() {
         Object.keys(todailySettings.todaily).length > 0 &&
         todailySettings.todaily) ||
       SETTINGS.defaults;
+
+    addEnabler();
 
     $(dom[settings.software].buttonsSelector).click(t => {
       Util.log('buttonSelector.clicked', t);
