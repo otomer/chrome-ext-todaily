@@ -28,6 +28,11 @@
   from { opacity: 0; }
   to   { opacity: 1; }
 }
+
+.timeout-img {
+  position:fixed; z-index:99; height: 200px; top:50%; left:50%; margin-top: -100px;
+}
+
 `;
 
   function init() {
