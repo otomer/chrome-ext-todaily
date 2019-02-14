@@ -1,8 +1,11 @@
 {
-  "name": "Todaily",
+  "manifest_version": 2,
+  "name": "Todaily (for JIRA)",
+  "version": "1.3",
+  "default_locale": "en",
+  "description": "Avoid Wasting Time on Daily Standup Meetings using JIRA",
+  "short_name": "Todaily",
   "author": "Tomer Ovadia // http://github.com/otomer",
-  "version": "1.2",
-  "description": "Avoid Wasting Time on Daily Standup Meetings",
   "permissions": ["activeTab", "declarativeContent", "storage"],
   "options_page": "options/options.html",
   "web_accessible_resources": ["*.mp3"],
@@ -36,6 +39,5 @@
     "48": "images/logo48.png",
     "64": "images/logo64.png",
     "128": "images/logo128.png"
-  },
-  "manifest_version": 2
+  }
 }
