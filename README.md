@@ -1,5 +1,6 @@
 # Todaily (for JIRA)
 ### Effective Daily Standups
+![rating](https://img.shields.io/badge/rating-★★★★★-brightgreen.svg?cacheSeconds=2592000)
 
 ## Is your daily stand-up a daily waste of time?
 Todaily is a unique [Chrome extension](http://bit.ly/todaily) that avoids time waisting.
