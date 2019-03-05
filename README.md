@@ -6,8 +6,7 @@
 Todaily is a unique [Chrome extension](http://bit.ly/todaily) that avoids time waisting.
 
 ## Screenshots
-![SS1](https://i.imgur.com/xz1bKuY.png)
-![SS2](https://i.imgur.com/vKd0hPF.png)
+<img src="https://camo.githubusercontent.com/9e5cc4d23915ce6d337e77bbd6d278781736a687/68747470733a2f2f692e696d6775722e636f6d2f787a31624b75592e706e67" alt="SS1" data-canonical-src="https://i.imgur.com/xz1bKuY.png" width="450">
 
 ## Notes
 Though it is supporting only JIRA right now, if you are using a different software with a similar view, let me know and I'll see how can I add this support too quickly :)
