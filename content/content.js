@@ -1,6 +1,10 @@
 window.addEventListener('load', () => Util.windowLoaded(contentIsReady), false);
 
 function contentIsReady() {
+  if (!window.location.host.startsWith('jira')) {
+    return;
+  }
+  
   Util.log(`content is ready, jquery v${$.fn.jquery} was loaded`);
   Styles.init();
 
@@ -8,8 +12,8 @@ function contentIsReady() {
   let dom = {
     extension: {
       containerId: CONSTANTS.EXTENSION_ELEMENT_ID,
-      imgContainerId: `${CONSTANTS.EXTENSION_ELEMENT_ID}-image`,
       enablerContainerId: `${CONSTANTS.EXTENSION_ELEMENT_ID}-enabler`,
+      imgContainerId: `${CONSTANTS.EXTENSION_ELEMENT_ID}-image`,
     },
   };
   $.extend(dom, SOFTWARES);
@@ -30,7 +34,6 @@ function contentIsReady() {
   });
 
   const CountDown = {
-    interval: null,
     clearance: function(delay) {
       delay = delay || 0;
 
@@ -59,6 +62,7 @@ function contentIsReady() {
         _clearance();
       }
     },
+    interval: null,
     start: function(text) {
       CountDown.clearance();
 
@@ -112,9 +116,9 @@ function contentIsReady() {
       if (settings.timeout.imageUrl) {
         elem.after(
           $('<img>', {
+            class: 'timeout-img',
             id: dom.extension.imgContainerId,
             src: settings.timeout.imageUrl,
-            class: 'timeout-img',
           }),
         );
       }
@@ -172,8 +176,8 @@ function contentIsReady() {
         {
           todaily: {
             ...settings,
-            time,
             enable: !settings.enable,
+            time,
           },
         },
         function() {
