@@ -1,4 +1,4 @@
-(function() {
+(function () {
   let SOFTWARES = {
     jira: {
       containerStyle: `
@@ -12,8 +12,8 @@
         z-index: 999;
         position:fixed;`,
 
-      buttonsSelector: '#js-work-quickfilters dd a[role=button]',
-      buttonActiveClass: 'ghx-active',
+      buttonActiveClass: "ghx-active",
+      buttonsSelector: "#js-work-quickfilters dd a[role=button]",
     },
     // Could add more systems here
   };

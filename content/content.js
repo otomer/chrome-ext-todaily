@@ -1,10 +1,16 @@
-window.addEventListener('load', () => Util.windowLoaded(contentIsReady), false);
+window.addEventListener("load", () => Util.windowLoaded(contentIsReady), false);
 
 function contentIsReady() {
-  if (!window.location.host.startsWith('jira')) {
+  // We want the extension to run only on jira. subdomains.
+  // For example: jira.company.com
+  const DOMAIN_MATCH_PREFIX = "jira.";
+  var domain = /:\/\/([^\/]+)/.exec(window.location.href)[1].toLowerCase();
+
+  if (!domain.startsWith("jira.")) {
+    // Disable the extension for subdomains different from .jira
     return;
   }
-  
+
   Util.log(`content is ready, jquery v${$.fn.jquery} was loaded`);
   Styles.init();
 
@@ -18,8 +24,8 @@ function contentIsReady() {
   };
   $.extend(dom, SOFTWARES);
 
-  chrome.storage.onChanged.addListener(function(changes, areaName) {
-    Util.log('chrome.storage.onChanged', changes.todaily);
+  chrome.storage.onChanged.addListener(function (changes, areaName) {
+    Util.log("chrome.storage.onChanged", changes.todaily);
 
     settings =
       (changes &&
@@ -34,23 +40,23 @@ function contentIsReady() {
   });
 
   const CountDown = {
-    clearance: function(delay) {
+    clearance: function (delay) {
       delay = delay || 0;
 
-      const _clearance = function() {
+      const _clearance = function () {
         const elem = $(`#${dom.extension.containerId}`);
         if (elem && elem.length !== 0) {
           elem.remove();
-          Util.log('dom.extension.containerId removed');
+          Util.log("dom.extension.containerId removed");
         } else {
-          Util.log('dom.extension.containerId doesnt exist');
+          Util.log("dom.extension.containerId doesnt exist");
         }
         const imgElem = $(`#${dom.extension.imgContainerId}`);
         if (imgElem && imgElem.length !== 0) {
           imgElem.remove();
-          Util.log('dom.extension.imgContainerId removed');
+          Util.log("dom.extension.imgContainerId removed");
         } else {
-          Util.log('dom.extension.imgContainerId doesnt exist');
+          Util.log("dom.extension.imgContainerId doesnt exist");
         }
         clearInterval(CountDown.interval);
       };
@@ -63,17 +69,17 @@ function contentIsReady() {
       }
     },
     interval: null,
-    start: function(text) {
+    start: function (text) {
       CountDown.clearance();
 
-      const countDownElem = $('<div>', {
+      const countDownElem = $("<div>", {
         id: dom.extension.containerId,
         style: `-webkit-animation: fadein 1s; ${
           dom[settings.software].containerStyle
         }`,
       });
 
-      $('body').append(countDownElem);
+      $("body").append(countDownElem);
 
       let timeLeft = settings.countdownSeconds;
 
@@ -91,9 +97,9 @@ function contentIsReady() {
           countdownState = settings.safe;
         }
 
-        countDownElem.css('background-color', countdownState.color);
+        countDownElem.css("background-color", countdownState.color);
         countDownElem.html(
-          `${text} ${countdownState.text}, you have ${timeLeft} seconds left..`,
+          `${text} ${countdownState.text}, you have ${timeLeft} seconds left..`
         );
 
         timeLeft -= 1;
@@ -104,10 +110,10 @@ function contentIsReady() {
       }, 1000);
       intervalHandler();
     },
-    timeout: function() {
+    timeout: function () {
       clearInterval(CountDown.interval);
       var alertAudio = new Audio();
-      alertAudio.src = chrome.extension.getURL('resources/alert.mp3');
+      alertAudio.src = chrome.extension.getURL("resources/alert.mp3");
       alertAudio.play();
 
       const elem = $(`#${dom.extension.containerId}`);
@@ -115,11 +121,12 @@ function contentIsReady() {
 
       if (settings.timeout.imageUrl) {
         elem.after(
-          $('<img>', {
-            class: 'timeout-img',
+          $("<img>", {
+            class: "timeout-img",
             id: dom.extension.imgContainerId,
             src: settings.timeout.imageUrl,
-          }),
+            style: `position:fixed;   z-index:99;  height: 200px;  top:50%;  left:50%;  margin-top: -100px;`,
+          })
         );
       }
       CountDown.clearance(5000);
@@ -134,7 +141,7 @@ function contentIsReady() {
       }, 500);
     } else {
       CountDown.clearance();
-      Util.log('currState should not start countdown');
+      Util.log("currState should not start countdown");
     }
   }
 
@@ -142,7 +149,7 @@ function contentIsReady() {
     const elemActive = $(
       `${dom[settings.software].buttonsSelector}.${
         dom[settings.software].buttonActiveClass
-      }`,
+      }`
     );
 
     return {
@@ -152,17 +159,36 @@ function contentIsReady() {
   }
 
   function updateEnabler() {
-    const cls = settings.enable ? 'on' : 'off';
+    const cls = settings.enable ? "on" : "off";
     let enabler = $(`#${dom.extension.enablerContainerId}`);
 
     if (!enabler || enabler.length == 0) {
-      enabler = $('<button>', {
+      enabler = $("<button>", {
         id: dom.extension.enablerContainerId,
       });
-      $('body').append(enabler);
+      $("body").append(enabler);
     }
-    enabler.attr('class', `enabler enabler-${cls}`);
-    enabler.html(`<span>STANDUP</span><br/><span> ${cls.toUpperCase()}</span>`);
+    enabler.attr("class", `enabler enabler-${cls}`);
+    enabler.attr(
+      "style",
+      `bottom: 46px;
+      padding: 0;
+      left: 5px;
+      width: 45px;
+      height: 45px;
+      position: fixed;
+      border: solid 1px #bbb;
+      z-index: 99;
+      border-radius: 5px;
+      outline: none;
+      font-weight:bold;
+      cursor:pointer;
+      ${cls === "on" ? "background:#dac32a;" : "background:#c8c8c8;"}
+      `
+    );
+    enabler.html(
+      `<span style="font-size:8px;">STANDUP</span><br/><span style="font-size:10px;"> ${cls.toUpperCase()}</span>`
+    );
     return enabler;
   }
 
@@ -180,16 +206,16 @@ function contentIsReady() {
             time,
           },
         },
-        function() {
+        function () {
           updateEnabler();
-          Util.log('done');
+          Util.log("done");
           tryStartCountdown();
-        },
+        }
       );
     });
   }
 
-  chrome.storage.sync.get([CONSTANTS.STORAGE_NAME], todailySettings => {
+  chrome.storage.sync.get([CONSTANTS.STORAGE_NAME], (todailySettings) => {
     settings =
       (todailySettings &&
         todailySettings.todaily &&
@@ -199,12 +225,12 @@ function contentIsReady() {
 
     addEnabler();
 
-    $(dom[settings.software].buttonsSelector).click(t => {
-      Util.log('buttonSelector.clicked', t);
+    $(dom[settings.software].buttonsSelector).click((t) => {
+      Util.log("buttonSelector.clicked", t);
       tryStartCountdown();
     });
 
-    Util.log('first try start countdown');
+    Util.log("first try start countdown");
     tryStartCountdown();
   });
 }

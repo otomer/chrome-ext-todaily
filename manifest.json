@@ -21,7 +21,7 @@
         "content/styles.js",
         "content/content.js"
       ],
-      "matches": ["https://jira.weworkers.io/*/*"]
+      "matches": ["<all_urls>"]
     }
   ],
   "description": "Avoid Wasting Time on Daily Standup Meetings using JIRA",
@@ -37,6 +37,6 @@
   "options_page": "options/options.html",
   "permissions": ["activeTab", "declarativeContent", "storage"],
   "short_name": "Todaily",
-  "version": "1.6",
+  "version": "1.7",
   "web_accessible_resources": ["*.mp3"]
 }

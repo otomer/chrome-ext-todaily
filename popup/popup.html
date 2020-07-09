@@ -2,56 +2,98 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <meta name="author" content="Tomer Ovadia // https://github.com/otomer" />
+    <meta content="Tomer Ovadia // https://github.com/otomer" name="author" />
     <link
+      href="https://fonts.googleapis.com/css?family=Raleway:400,400i,700"
       rel="stylesheet"
       type="text/css"
-      href="https://fonts.googleapis.com/css?family=Raleway:400,400i,700"
     />
-    <link rel="stylesheet" type="text/css" href="popup.css" />
+    <link href="popup.css" rel="stylesheet" type="text/css" />
     <title></title>
   </head>
   <body>
     <div class="popup-wrapper">
       <h1></h1>
       <h2></h2>
-      <a class="popup-site" target="_blank" href="https://www.todaily.club"
+      <a class="popup-site" href="https://www.todaily.club" target="_blank"
         >todaily.club</a
       >
       <hr />
       <h3 id="savedTitle"></h3>
-      <div>
-        Enable Extension:
-        <input id="enableCheckbox" type="checkbox" placeholder="Enable" />
-      </div>
-      <div>
-        Countdown Seconds:
-        <input id="countdownSecondsInput" type="number" placeholder="Seconds" />
-      </div>
-      <div>
-        Timeout:
-        <input
-          id="timeoutImageInput"
-          type="text"
-          placeholder="Timeout Image url"
-        />
-        <input id="timeoutTextInput" type="text" placeholder="Timeout text" />
-      </div>
-      <div>
-        Safe Mode:
-        <input id="safeTextInput" type="text" placeholder="Safe text" />
-        <input id="safeColorInput" type="color" placeholder="Safe color" />
-      </div>
-      <div>
-        Warn Mode:
-        <input id="warnTextInput" type="text" placeholder="Warn text" />
-        <input id="warnColorInput" type="color" placeholder="Warn color" />
-      </div>
-      <div>
-        Danger Mode:
-        <input id="dangerTextInput" type="text" placeholder="Danger text" />
-        <input id="dangerColorInput" type="color" placeholder="Danger color" />
-      </div>
+      <table>
+        <tr>
+          <td>
+            Enable Extension
+          </td>
+          <td>
+            <input id="enableCheckbox" placeholder="Enable" type="checkbox" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Countdown Seconds
+          </td>
+          <td>
+            <input
+              id="countdownSecondsInput"
+              placeholder="Seconds"
+              type="number"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Timeout Image
+          </td>
+          <td>
+            <input
+              id="timeoutImageInput"
+              placeholder="Timeout Image url"
+              type="text"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Timeout Text
+          </td>
+          <td>
+            <input
+              id="timeoutTextInput"
+              placeholder="Timeout text"
+              type="text"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Safe Mode
+          </td>
+          <td>
+            <input id="safeTextInput" placeholder="Safe text" type="text" />
+            <input id="safeColorInput" placeholder="Safe color" type="color" />
+          </td>
+        </tr>
+        <tr>
+          <td>Warn Mode</td>
+          <td>
+            <input id="warnTextInput" placeholder="Warn text" type="text" />
+            <input id="warnColorInput" placeholder="Warn color" type="color" />
+          </td>
+        </tr>
+        <tr>
+          <td>Danger Mode</td>
+          <td>
+            <input id="dangerTextInput" placeholder="Danger text" type="text" />
+            <input
+              id="dangerColorInput"
+              placeholder="Danger color"
+              type="color"
+            />
+          </td>
+        </tr>
+      </table>
+
       <button id="saveBtn">Save Changes</button>
       <button id="clearBtn">Clear</button>
     </div>
